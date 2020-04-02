@@ -13,6 +13,7 @@ String lastName;
 String email;
 String phone;
 String token;
+String data;
 
 
 class MyWidget extends StatefulWidget {
@@ -28,6 +29,7 @@ class MyWidgetState extends State<MyWidget> {
         title: Text('Введите Ваши данные'),
       ),
       body: SingleChildScrollView(child: MyForm()),
+
     );
   }
 }
@@ -144,6 +146,10 @@ class MyFormState extends State {
 
                   _makePostRequest();
                   //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
+                  Navigator.of(context).pushNamed(
+                    '/second',
+                    arguments: phone,
+                  );
                 }
               },
               //padding: EdgeInsets.all(15.0),

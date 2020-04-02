@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
+//import 'package:routing_prep/main.dart';
+import 'package:dnsshop/second_screen.dart';
+import 'package:dnsshop/my_widget.dart';
+import 'package:dnsshop/route_generator.dart';
+
+
+
 
 class SecondScreen extends StatelessWidget {
+
+  final String data;
+  SecondScreen({
+    Key key,
+    @required this.data,
+
+  }) : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +81,10 @@ class MyFormState2 extends State {
                 }
               },
               //padding: EdgeInsets.all(15.0),
+            ),
+            Text(
+              data??'Нифига не передалось почему то?!',
+              style: TextStyle(fontSize: 20),
             ),
           ],
         ),

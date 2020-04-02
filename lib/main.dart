@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'my_widget.dart';
+import 'route_generator.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,7 +11,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Тестовое задание ДНС',
 
-      home: MyWidget(),
+      //home: MyWidget(),
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
