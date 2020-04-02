@@ -1,7 +1,19 @@
 import 'package:validators/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
+import 'package:dnsshop/second_screen.dart';
+
+//import 'dart:convert' as convert;
+final myControllerFirstName = TextEditingController();
+final myControllerLastName = TextEditingController();
+final myControllerPhone = TextEditingController();
+final myControllerEmail = TextEditingController();
+String firstName;
+String lastName;
+String email;
+String phone;
+String token;
+
 
 class MyWidget extends StatefulWidget {
   @override
@@ -14,169 +26,163 @@ class MyWidgetState extends State<MyWidget> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Введите Ваши данные'),
-
       ),
-      body: SingleChildScrollView(child: MyForm ()),
+      body: SingleChildScrollView(child: MyForm()),
     );
   }
 }
 
-class MyForm extends StatefulWidget{
-
+class MyForm extends StatefulWidget {
   @override
   State createState() => MyFormState();
 }
 
-class MyFormState extends State{
-final _formKey = GlobalKey<FormState>();
+class MyFormState extends State {
+  final _formKey = GlobalKey<FormState>();
+
+
+ // Future<Album> futureAlbum;
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       padding: EdgeInsets.all(10.0),
       child: Form(
         key: _formKey,
         child: Column(
           children: <Widget>[
-            SizedBox (height: 10.0,),
-            Text ('Имя', style: TextStyle(fontSize: 20.0),),
+            SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              'Имя',
+              style: TextStyle(fontSize: 20.0),
+            ),
             TextFormField(
+              controller: myControllerFirstName,
               decoration: InputDecoration(labelText: 'Введите ваше имя'),
               // ignore: missing_return
-              validator: (value){
-                if(value.isEmpty) return'Пожалуйста введите своё Имя';
-
+              validator: (value) {
+                if (value.isEmpty) return 'Пожалуйста введите своё Имя';
+                else{
+                  firstName = myControllerFirstName.text;
+                  print(firstName);
+                }
               },
             ),
-            SizedBox (height: 20.0,),
-            Text ('Фамилия', style: TextStyle(fontSize: 20.0),),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Фамилия',
+              style: TextStyle(fontSize: 20.0),
+            ),
             TextFormField(
+              controller: myControllerLastName,
               decoration: InputDecoration(labelText: 'Введите свою фамилию'),
               // ignore: missing_return
-              validator: (value){
-                if(value.isEmpty) return'Пожалуйста введите свою фамилию';
+              validator: (value) {
+                if (value.isEmpty) {return 'Пожалуйста введите свою фамилию';}
+                else{
+                  lastName = myControllerLastName.text;
+                  print(lastName);
+                }
 
-              },),
-            SizedBox (height: 20.0,),
-            Text ('Email', style: TextStyle(fontSize: 20.0),),
+              },
+            ),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Email',
+              style: TextStyle(fontSize: 20.0),
+            ),
             TextFormField(
+              controller: myControllerEmail,
               decoration: InputDecoration(labelText: 'Введите свой Email'),
               // ignore: missing_return
-              validator: (value){
-                if(value.isEmpty) return'Пожалуйста введите свой Email';
-                if(!isEmail(value)) return 'У вас ошибка в емейле, или вы пытаетесь сделать незаконную инъекцию';
-
+              validator: (value) {
+                if (value.isEmpty) return 'Пожалуйста введите свой Email';
+                if (!isEmail(value))
+                  {return 'У вас ошибка в емейле, или вы пытаетесь сделать незаконную инъекцию';}
+                else {
+                email = myControllerEmail.text;
+                print(email);
+                }
               },
             ),
-            SizedBox (height: 20.0,),
-            Text ('Телефон', style: TextStyle(fontSize: 20.0),),
+            SizedBox(
+              height: 20.0,
+            ),
+            Text(
+              'Телефон',
+              style: TextStyle(fontSize: 20.0),
+            ),
             TextFormField(
+              controller: myControllerPhone,
               decoration: InputDecoration(labelText: 'Введите свой телефон'),
               // ignore: missing_return
-              validator: (value){
-                if(value.isEmpty) return'Пожалуйста введите свой телефон';
-
-              },),
-
-            RaisedButton(
-              child: Text(
-            'Получить ключ'
-            ),
-              color: Colors.red,
-              textColor: Colors.white,
-              onPressed:() {
-                if (_formKey.currentState.validate()){
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text('Все поля заполнены верно, идём получать токен'),
-                  backgroundColor: Colors.green,
-                ));
-
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
-
+              validator: (value) {
+                if (value.isEmpty) {return 'Пожалуйста введите свой телефон';}
+                else{
+                  phone = myControllerPhone.text;
+                  print(phone);
                 }
-                /*Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(text),
-                  backgroundColor: color,
-                ));*/
-              },
-              //padding: EdgeInsets.all(15.0),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Отправка данных')),
-      body: MyForm2()
-    );
-  }
-}
-class MyForm2 extends StatefulWidget{
-
-  @override
-  State createState() => MyFormState2();
-}
-
-class MyFormState2 extends State{
-  final _formKey2 = GlobalKey<FormState>();
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-      padding: EdgeInsets.all(10.0),
-      child: Form(
-        key: _formKey2,
-        child: Column(
-          children: <Widget>[
-            SizedBox (height: 10.0,),
-            Text ('GitHub', style: TextStyle(fontSize: 20.0),),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'ссылка на github'),
-              // ignore: missing_return
-              validator: (value){
-                if(value.isEmpty) return'Пожалуйста введите ссылку на github';
-
               },
             ),
-            SizedBox (height: 20.0,),
-            Text ('Резюме', style: TextStyle(fontSize: 20.0),),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Введите ссылку на резюме'),
-              // ignore: missing_return
-              validator: (value){
-                if(value.isEmpty) return'Пожалуйста введите ссылку на резюме';
-
-              },),
-
             RaisedButton(
-              child: Text(
-                  'Зарегистрироваться'
-              ),
+              child: Text('Получить ключ'),
               color: Colors.red,
               textColor: Colors.white,
-              onPressed:() {
-                if (_formKey2.currentState.validate()){
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
                   Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text('Все поля заполнены верно, регистрируемся'),
+                    content:
+                        Text('Все поля заполнены верно, идём получать токен'),
                     backgroundColor: Colors.green,
                   ));
+                  _formKey.currentState.save();
 
-
-
+                  _makePostRequest();
+                  //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
                 }
-
               },
               //padding: EdgeInsets.all(15.0),
             ),
+            /*RaisedButton(
+              child: Text('Отправить Json'),
+              onPressed: _makePostRequest,
+            )*/
           ],
         ),
       ),
     );
   }
 }
+
+
+_makePostRequest() async {
+  // set up POST request arguments
+  String url =
+      'https://vacancy.dns-shop.ru/api/candidate/token';
+
+  String json =
+      '{"firstName": "$firstName", "lastName": "$lastName", "phone": "$phone", "email": "$email"}';
+
+  // make POST request
+  var response = await http.post(url, body: json, headers: {"Content-type": "application/json"});
+  //print("Response status: ${response.statusCode}");
+
+  if (response.statusCode == 200){
+    //print("Response body: ${response.body}");
+      token = response.body;
+      print(token);
+
+  }
+  else{
+    throw Exception('Failed to load');
+  }
+  // check the status code for the result
+
+
+}
+
