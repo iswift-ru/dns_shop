@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-//import 'package:routing_prep/main.dart';
-import 'package:dnsshop/second_screen.dart';
 import 'package:dnsshop/my_widget.dart';
-import 'package:dnsshop/route_generator.dart';
 
 
 
