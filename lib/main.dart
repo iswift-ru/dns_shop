@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'my_widget.dart';
-import 'route_generator.dart';
+import 'package:dnsshop/extract_arguments_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,11 +9,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Тестовое задание ДНС',
 
-      //home: MyWidget(),
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
+      home: MyWidget(),
+      routes: {
+          ExtractArgumentsScreen.routeName: (context) => ExtractArgumentsScreen(),
+
+    },
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:validators/validators.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:dnsshop/second_screen.dart';
+import 'package:dnsshop/extract_arguments_screen.dart';
+import 'dart:convert';
 
-//import 'dart:convert' as convert;
+
 final myControllerFirstName = TextEditingController();
 final myControllerLastName = TextEditingController();
 final myControllerPhone = TextEditingController();
@@ -67,7 +68,7 @@ class MyFormState extends State {
                 if (value.isEmpty) return 'Пожалуйста введите своё Имя';
                 else{
                   firstName = myControllerFirstName.text;
-                  print(firstName);
+                  //print(firstName);
                 }
               },
             ),
@@ -86,7 +87,7 @@ class MyFormState extends State {
                 if (value.isEmpty) {return 'Пожалуйста введите свою фамилию';}
                 else{
                   lastName = myControllerLastName.text;
-                  print(lastName);
+                  //print(lastName);
                 }
 
               },
@@ -108,7 +109,7 @@ class MyFormState extends State {
                   {return 'У вас ошибка в емейле, или вы пытаетесь сделать незаконную инъекцию';}
                 else {
                 email = myControllerEmail.text;
-                print(email);
+                //print(email);
                 }
               },
             ),
@@ -127,7 +128,7 @@ class MyFormState extends State {
                 if (value.isEmpty) {return 'Пожалуйста введите свой телефон';}
                 else{
                   phone = myControllerPhone.text;
-                  print(phone);
+                  //print(phone);
                 }
               },
             ),
@@ -146,10 +147,18 @@ class MyFormState extends State {
 
                   _makePostRequest();
                   //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
-                  Navigator.of(context).pushNamed(
-                    '/second',
-                    arguments: phone,
+                  Navigator.pushNamed(
+                    context,
+                    ExtractArgumentsScreen.routeName,
+                    arguments: ScreenArguments(
+                      firstName, lastName, phone, email, token
+
+                    ),
                   );
+
+
+
+                 // Navigator.pushNamed(context, '/second', arguments: phone);
                 }
               },
               //padding: EdgeInsets.all(15.0),
@@ -180,8 +189,13 @@ _makePostRequest() async {
 
   if (response.statusCode == 200){
     //print("Response body: ${response.body}");
-      token = response.body;
-      print(token);
+
+    Map<String, dynamic> extractData = jsonDecode(response.body);
+
+    print('Получили токен ${extractData['data']}');
+    token = extractData['data'];
+
+    print('записали токен в токен $token');
 
   }
   else{
@@ -192,3 +206,14 @@ _makePostRequest() async {
 
 }
 
+class ScreenArguments {
+  final String firstName;
+  final String lastName;
+  final String phone;
+  final String email;
+  final String token;
+
+  ScreenArguments(this.firstName, this.lastName, this.phone, this.email, this.token);
+
+
+}
