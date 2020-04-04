@@ -4,18 +4,16 @@ import 'package:http/http.dart' as http;
 import 'package:dnsshop/extract_arguments_screen.dart';
 import 'dart:convert';
 
-
-final myControllerFirstName = TextEditingController();
-final myControllerLastName = TextEditingController();
-final myControllerPhone = TextEditingController();
-final myControllerEmail = TextEditingController();
+final myControllerFirstName = TextEditingController(text: 'Artem');
+final myControllerLastName = TextEditingController(text: 'Lobazin');
+final myControllerPhone = TextEditingController(text: '+79990697289');
+final myControllerEmail = TextEditingController(text: '9637056@mail.ru');
 String firstName;
 String lastName;
 String email;
 String phone;
 String token;
 String data;
-
 
 class MyWidget extends StatefulWidget {
   @override
@@ -30,7 +28,6 @@ class MyWidgetState extends State<MyWidget> {
         title: Text('Введите Ваши данные'),
       ),
       body: SingleChildScrollView(child: MyForm()),
-
     );
   }
 }
@@ -43,8 +40,6 @@ class MyForm extends StatefulWidget {
 class MyFormState extends State {
   final _formKey = GlobalKey<FormState>();
 
-
- // Future<Album> futureAlbum;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,10 +60,10 @@ class MyFormState extends State {
               decoration: InputDecoration(labelText: 'Введите ваше имя'),
               // ignore: missing_return
               validator: (value) {
-                if (value.isEmpty) return 'Пожалуйста введите своё Имя';
-                else{
+                if (value.isEmpty)
+                  return 'Пожалуйста введите своё Имя';
+                else {
                   firstName = myControllerFirstName.text;
-                  //print(firstName);
                 }
               },
             ),
@@ -84,12 +79,11 @@ class MyFormState extends State {
               decoration: InputDecoration(labelText: 'Введите свою фамилию'),
               // ignore: missing_return
               validator: (value) {
-                if (value.isEmpty) {return 'Пожалуйста введите свою фамилию';}
-                else{
+                if (value.isEmpty) {
+                  return 'Пожалуйста введите свою фамилию';
+                } else {
                   lastName = myControllerLastName.text;
-                  //print(lastName);
                 }
-
               },
             ),
             SizedBox(
@@ -105,11 +99,10 @@ class MyFormState extends State {
               // ignore: missing_return
               validator: (value) {
                 if (value.isEmpty) return 'Пожалуйста введите свой Email';
-                if (!isEmail(value))
-                  {return 'У вас ошибка в емейле, или вы пытаетесь сделать незаконную инъекцию';}
-                else {
-                email = myControllerEmail.text;
-                //print(email);
+                if (!isEmail(value)) {
+                  return 'У вас ошибка в емейле, или вы пытаетесь сделать незаконную инъекцию';
+                } else {
+                  email = myControllerEmail.text;
                 }
               },
             ),
@@ -125,10 +118,10 @@ class MyFormState extends State {
               decoration: InputDecoration(labelText: 'Введите свой телефон'),
               // ignore: missing_return
               validator: (value) {
-                if (value.isEmpty) {return 'Пожалуйста введите свой телефон';}
-                else{
+                if (value.isEmpty) {
+                  return 'Пожалуйста введите свой телефон';
+                } else {
                   phone = myControllerPhone.text;
-                  //print(phone);
                 }
               },
             ),
@@ -146,27 +139,17 @@ class MyFormState extends State {
                   _formKey.currentState.save();
 
                   _makePostRequest();
-                  //Navigator.push(context, MaterialPageRoute(builder: (context) => SecondScreen()));
+
                   Navigator.pushNamed(
                     context,
                     ExtractArgumentsScreen.routeName,
                     arguments: ScreenArguments(
-                      firstName, lastName, phone, email, token
-
-                    ),
+                        firstName, lastName, phone, email, token),
                   );
-
-
-
-                 // Navigator.pushNamed(context, '/second', arguments: phone);
                 }
               },
               //padding: EdgeInsets.all(15.0),
             ),
-            /*RaisedButton(
-              child: Text('Отправить Json'),
-              onPressed: _makePostRequest,
-            )*/
           ],
         ),
       ),
@@ -174,36 +157,23 @@ class MyFormState extends State {
   }
 }
 
-
 _makePostRequest() async {
-  // set up POST request arguments
-  String url =
-      'https://vacancy.dns-shop.ru/api/candidate/token';
+  String url = 'https://vacancy.dns-shop.ru/api/candidate/token';
 
   String json =
       '{"firstName": "$firstName", "lastName": "$lastName", "phone": "$phone", "email": "$email"}';
 
-  // make POST request
-  var response = await http.post(url, body: json, headers: {"Content-type": "application/json"});
-  //print("Response status: ${response.statusCode}");
+  var response = await http
+      .post(url, body: json, headers: {"Content-type": "application/json"});
 
-  if (response.statusCode == 200){
-    //print("Response body: ${response.body}");
-
+  if (response.statusCode == 200) {
     Map<String, dynamic> extractData = jsonDecode(response.body);
 
     print('Получили токен ${extractData['data']}');
     token = extractData['data'];
-
-    print('записали токен в токен $token');
-
-  }
-  else{
+  } else {
     throw Exception('Failed to load');
   }
-  // check the status code for the result
-
-
 }
 
 class ScreenArguments {
@@ -213,7 +183,6 @@ class ScreenArguments {
   final String email;
   final String token;
 
-  ScreenArguments(this.firstName, this.lastName, this.phone, this.email, this.token);
-
-
+  ScreenArguments(
+      this.firstName, this.lastName, this.phone, this.email, this.token);
 }
