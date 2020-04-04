@@ -172,7 +172,7 @@ _makePostRequest() async {
     print('Получили токен ${extractData['data']}');
     token = extractData['data'];
   } else {
-    throw Exception('Failed to load');
+    throw Exception('Failed to load!');
   }
 }
 
