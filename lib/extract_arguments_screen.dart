@@ -31,7 +31,7 @@ class _ExtractArgumentsScreenState extends State<ExtractArgumentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Отправка данных '),
+        title: Text('Отправка данных'),
       ),
       body: SingleChildScrollView(child: MyForm2()),
     );
@@ -111,9 +111,9 @@ class MyFormState2 extends State<MyForm2> {
                   _makePostRequestRegistration();
 
                   Scaffold.of(context).showSnackBar(SnackBar(
-                    content: Text(server),
+                    content: Text(server??'Нажмите кнопку ещё раз'),
                     backgroundColor: Colors.green,
-                    duration: Duration(seconds: 20),
+
                   ));
                 }
               },
@@ -149,8 +149,8 @@ _makePostRequestRegistration() async {
     server = response.body;
 
     print('Ответ сервера $server');
-    return 'server';
+
   } else {
-    throw Exception('Failed to load');
+    throw Exception('Failed to load!');
   }
 }
