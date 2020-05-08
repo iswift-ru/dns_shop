@@ -1,16 +1,16 @@
-# dnsshop
+Тестовое задание на Flutter
+Нужно создать приложение, которое формирует и отправляет заявку для участие в
+стажировке как мобильного разработчика на Flutter. Данное приложение является тестовым
+заданием для проверки необходимых для стажировки навыков. И никаким образом не будет
+использоваться для коммерческих целей.
+Детали.
+При запуске пользователь попадает на экран с формой ввода личных данных. На данном
+шаге нужно ввести фамилию, имя, отчество, e-mail, телефон.
+Далее по кнопке "ПОЛУЧИТЬ КЛЮЧ", приложение запрашивает токен через API, используя
+введенные ранее данные.
+После получения токена нужно перейти к форме для регистрации. Где пользователь
+указывает ссылки на резюме и на репозиторий github с исходным кодом данного задания. После
+чего отправляет токен, ссылки и контактные данные через второй метод API
 
-A new Flutter application.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Полное описание тествого задания лежит впроекте
